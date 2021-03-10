@@ -34,23 +34,44 @@
                 `
                     <div>
                         <button @click = "aumentar">+</button> <!--mapMutations para no usar $store.commit('aumentar')-->
-                        <h1>numero {{$store.state.num}}</h1>
-                        
+                        <h1>numero {{num}}</h1>
+
+                        <button @click = "obtenerCursos">Obtener Cursos</button> <!--mapMutations para no usar $store.commit('aumentar')-->
+                       
+                        <ul v-for = "item of cursos">
+                            <li>{{item.nombre}}</li>
+                        </ul>
                     </div>
                     `,
+                    computed:{
+                    ...Vuex.mapState(['num', 'cursos'])
+                    },
                     methods: {
-                        ...Vuex.mapMutations(['aumentar'])
+                        ...Vuex.mapMutations(['aumentar']),
+                        ...Vuex.mapActions(['obtenerCursos'])
                     },
             })
 
             const store = new Vuex.Store({
             state: { //nuestros datos
-                num: 10
+                num: 10,
+                cursos: []
             },
             mutations: { 
                 aumentar (state) {
                  state.num++
+                },
+                llenarCursos(state, cursosAccion){
+                    state.cursos = cursosAccion
                 }
+            },
+            actions:{
+                obtenerCursos: async function({commit}){
+                    const data = await fetch('cursos.json'); //fetch toma un url
+                    const cursos = await data.json(); //para que devuelva en formato json
+                    commit('llenarCursos', cursos)  //lama a llenar cursos con su parametro, y llenar cursos toma el estado cursos y lo llena con lo que consumi de la api
+                }
+
             }
             })
 
