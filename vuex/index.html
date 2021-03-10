@@ -12,13 +12,51 @@
 
     <body>
         <div id="app" class="container mt-5">
-        
+            <titulo></titulo>
         </div>
         
         <script>
+            Vue.component('titulo',{
+                template: //html
+                `
+                    <div>
+                        <h1>numero {{num}}</h1> <!-- el mapState es para no usar todo esto $store.state.num -->
+                        <hijo></hijo>
+                    </div>
+                `,
+                computed:{
+                    ...Vuex.mapState(['num'])
+                }
+            });
+
+            Vue.component('hijo',{
+                template: //html
+                `
+                    <div>
+                        <button @click = "aumentar">+</button> <!--mapMutations para no usar $store.commit('aumentar')-->
+                        <h1>numero {{$store.state.num}}</h1>
+                        
+                    </div>
+                    `,
+                    methods: {
+                        ...Vuex.mapMutations(['aumentar'])
+                    },
+            })
+
+            const store = new Vuex.Store({
+            state: { //nuestros datos
+                num: 10
+            },
+            mutations: { 
+                aumentar (state) {
+                 state.num++
+                }
+            }
+            })
 
             new Vue({
-                el: '#app'
+                el: '#app',
+                store: store
             });
         </script>
       
