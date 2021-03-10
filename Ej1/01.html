@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible"content="ie=edge">
+        <title>Hola mundo con vue</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <h1> {{titulo}} </h1>
+            <input type="text" v-model="nuevaFruta" @keyup.enter="agregarFruta">  <!--vmodel es para el intercambio de datos-->
+            <button @click="agregarFruta">Agregar</button>
+            <ul>
+                <li v-for="item in list">
+                    <input type="number" v-model.number="item.cant">  <!--vmodel es para el intercambio de datos-->
+                    {{item.nombre}} - {{item.cant}}
+                    <button @click="item.cant++">+</button>
+                    <span v-if="item.cant===1">sin stock</span>
+                </li>
+            </ul>
+            <h4>TOTAL: {{sumarFrutas}}</h4>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src = "01.js"></script>
+    </body>
+</html>
